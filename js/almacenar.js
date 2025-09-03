@@ -1,7 +1,6 @@
 const agregarButton = document.getElementById('agregar');
 const inputItem = document.getElementById('item');
 const contenedor = document.getElementById('contenedor');
-const listElement = [];
 
 function init() {
   contenedor.innerHTML = JSON.parse(localStorage.getItem('elementos') || '[]')
@@ -12,24 +11,36 @@ function init() {
 init();
 
 agregarButton.addEventListener('click', () => {
-  listElement.push(inputItem.value);
-  updateListContainer(listElement);
-  inputItem.value = '';
-  guardarDatos();
+  if (inputItem.value.trim() === '') {
+    alert('Por favor, ingrese un elemento válido.');
+    return;
+  }
+  if (!verificarSiElementoExiste(inputItem.value)) {
+    contenedor.innerHTML += `<li>${inputItem.value}</li>`;
+    guardarDatos(inputItem.value);
+    inputItem.value = '';
+    return;
+  }
+  alert('El elemento ya existe en la lista.');
 });
 
-function updateListContainer(listElement) {
-  contenedor.innerHTML += listElement
-    .map((listElement) => `<li>${listElement}</li>`)
-    .join('');
-}
+// function updateListContainer(listElement) {
+//   contenedor.innerHTML += listElement
+//     .map((listElement) => `<li>${listElement}</li>`)
+//     .join('');
+// }
 
-function guardarDatos() {
+function guardarDatos(text) {
   localStorage.setItem(
     'elementos',
     JSON.stringify([
       ...JSON.parse(localStorage.getItem('elementos') || '[]'),
-      ...listElement,
+      text,
     ])
   );
+}
+
+function verificarSiElementoExiste(text) {
+  const elementos = JSON.parse(localStorage.getItem('elementos') || '[]');
+  return elementos.includes(text);
 }
