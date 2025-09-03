@@ -1,7 +1,6 @@
 const agregarButton = document.getElementById('agregar');
 const inputItem = document.getElementById('item');
 const contenedor = document.getElementById('contenedor');
-const listElement = [];
 
 function init() {
   contenedor.innerHTML = JSON.parse(localStorage.getItem('elementos') || '[]')
@@ -12,10 +11,9 @@ function init() {
 init();
 
 agregarButton.addEventListener('click', () => {
-  listElement.push(inputItem.value);
-  updateListContainer(listElement);
+  contenedor.innerHTML += `<li>${inputItem.value}</li>`;
+  guardarDatos(inputItem.value);
   inputItem.value = '';
-  guardarDatos();
 });
 
 function updateListContainer(listElement) {
@@ -24,12 +22,12 @@ function updateListContainer(listElement) {
     .join('');
 }
 
-function guardarDatos() {
+function guardarDatos(text) {
   localStorage.setItem(
     'elementos',
     JSON.stringify([
       ...JSON.parse(localStorage.getItem('elementos') || '[]'),
-      ...listElement,
+      text,
     ])
   );
 }
