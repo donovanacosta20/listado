@@ -11,24 +11,20 @@ function init() {
 init();
 
 agregarButton.addEventListener('click', () => {
-  if (inputItem.value.trim() === '') {
+  inputText = inputItem.value;
+
+  if (inputText.trim() === '') {
     alert('Por favor, ingrese un elemento válido.');
     return;
   }
-  if (!verificarSiElementoExiste(inputItem.value)) {
-    contenedor.innerHTML += `<li class="list-group-item">${inputItem.value}</li>`;
-    guardarDatos(inputItem.value);
-    inputItem.value = '';
+  if (verificarSiElementoExiste(inputText)) {
+    alert('El elemento ya existe en la lista.');
     return;
   }
-  alert('El elemento ya existe en la lista.');
+  contenedor.innerHTML += `<li class="list-group-item">${inputText}</li>`;
+  guardarDatos(inputText);
+  inputItem.value = '';
 });
-
-// function updateListContainer(listElement) {
-//   contenedor.innerHTML += listElement
-//     .map((listElement) => `<li>${listElement}</li>`)
-//     .join('');
-// }
 
 function guardarDatos(text) {
   localStorage.setItem(
