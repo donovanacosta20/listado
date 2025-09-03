@@ -11,9 +11,17 @@ function init() {
 init();
 
 agregarButton.addEventListener('click', () => {
+  if (inputItem.value.trim() === '') {
+    alert('Por favor, ingrese un elemento válido.');
+    return;
+  }
   contenedor.innerHTML += `<li>${inputItem.value}</li>`;
-  guardarDatos(inputItem.value);
-  inputItem.value = '';
+  if (!verificarSiElementoExiste(inputItem.value)) {
+    guardarDatos(inputItem.value);
+    inputItem.value = '';
+    return;
+  }
+  alert('El elemento ya existe en la lista.');
 });
 
 function updateListContainer(listElement) {
@@ -30,4 +38,9 @@ function guardarDatos(text) {
       text,
     ])
   );
+}
+
+function verificarSiElementoExiste(text) {
+  const elementos = JSON.parse(localStorage.getItem('elementos') || '[]');
+  return elementos.includes(text);
 }
