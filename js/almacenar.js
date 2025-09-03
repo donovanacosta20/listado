@@ -4,7 +4,7 @@ const contenedor = document.getElementById('contenedor');
 
 function init() {
   contenedor.innerHTML = JSON.parse(localStorage.getItem('elementos') || '[]')
-    .map((listElement) => `<li>${listElement}</li>`)
+    .map((listElement) => `<li class="list-group-item">${listElement}</li>`)
     .join('');
 }
 
@@ -16,7 +16,7 @@ agregarButton.addEventListener('click', () => {
     return;
   }
   if (!verificarSiElementoExiste(inputItem.value)) {
-    contenedor.innerHTML += `<li>${inputItem.value}</li>`;
+    contenedor.innerHTML += `<li class="list-group-item">${inputItem.value}</li>`;
     guardarDatos(inputItem.value);
     inputItem.value = '';
     return;
